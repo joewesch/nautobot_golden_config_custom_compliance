@@ -12,7 +12,9 @@ def _compliance_ignore(obj, compliance_details):
         search_extra = re.search(ignore_regex, compliance_details["extra"])
         if search_extra:
             ignored_lines.append(search_extra[0])
-            compliance_details["extra"] = re.sub(sub_regex, "", compliance_details["extra"])
+            compliance_details["extra"] = re.sub(
+                sub_regex, "", compliance_details["extra"]
+            )
 
     return ignored_lines
 
@@ -24,8 +26,12 @@ def _compliance_equivalent(obj, compliance_details):
         if search_missing and search_extra:
             # Matches on `\n` before, after, or neither
             sub_regex = f"\n{equivalent_regex}|{equivalent_regex}\n?"
-            compliance_details["missing"] = re.sub(sub_regex, "", compliance_details["missing"])
-            compliance_details["extra"] = re.sub(sub_regex, "", compliance_details["extra"])
+            compliance_details["missing"] = re.sub(
+                sub_regex, "", compliance_details["missing"]
+            )
+            compliance_details["extra"] = re.sub(
+                sub_regex, "", compliance_details["extra"]
+            )
 
 
 def custom_compliance(obj):
@@ -36,7 +42,7 @@ def custom_compliance(obj):
         "missing": "",
         "extra": "",
     }
-    compliance_type = obj.rule.custom_field_data.get("compliance_type")
+    compliance_type = obj.rule.custom_field_data.get("compliance_type").lower()
     if not compliance_type:
         # Shortcut to bypass custom logic if missing required custom field
         compliance_details["missing"] = "Missing `compliance_type` custom field"
@@ -66,7 +72,11 @@ def custom_compliance(obj):
         _compliance_equivalent(obj, compliance_details)
 
     # Add comments for any lines that were ignored
-    ignored_output = "Ignored via Compliance Ignore custom field:\n" + "\n".join(ignored_lines) if ignored_lines else ""
+    ignored_output = (
+        "Ignored via Compliance Ignore custom field:\n" + "\n".join(ignored_lines)
+        if ignored_lines
+        else ""
+    )
 
     # Check if there are any missing or extra left after post-processing
     if not any((compliance_details["missing"], compliance_details["extra"])):
