@@ -7,7 +7,7 @@ from nautobot_golden_config.models import FUNC_MAPPER
 def _compliance_ignore(obj, compliance_details):
     ignored_lines = []
     for ignore_regex in obj.rule.custom_field_data.get("compliance_ignore"):
-        # Remove any carat or dollar sign and replace with `\n`
+        # Remove any caret or dollar sign and replace with `\n`
         if ignore_regex.startswith("^"):
             ignore_regex = ignore_regex[1:]
         if ignore_regex.endswith("$"):
@@ -29,7 +29,7 @@ def _compliance_equivalent(obj, compliance_details):
         search_missing = re.search(equivalent_regex, compliance_details["missing"])
         search_extra = re.search(equivalent_regex, compliance_details["extra"])
         if search_missing and search_extra:
-            # Remove any carat or dollar sign and replace with `\n`
+            # Remove any caret or dollar sign and replace with `\n`
             if equivalent_regex.startswith("^"):
                 equivalent_regex = equivalent_regex[1:]
             if equivalent_regex.endswith("$"):
