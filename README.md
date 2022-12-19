@@ -100,10 +100,12 @@ Example list of equivalent patterns:
 
 ```python
 [
-    "^logging host [0-9]{1,3}\.[0-9]{1,3}\.0\.100 .*$",
+    "^logging host [0-9]{1,3}[.][0-9]{1,3}[.]0[.]100 .*$",
     "^username \\S+ privilege 15 password 0 \\S+$",
 ]
 ```
+
+> Note: Since the regex pattern needs to be JSON serialized, you will need to use two backslashes to denote an escaped character (e.g. `\\d` instead of just `\d` ).
 
 ## Additional Information
 
